@@ -26,6 +26,7 @@ class UploadController extends AbstractController
     {
         $file = $request->files->get('attachments');
         $uploaded = $this->uploadService->uploadLocal($file);
+//        $this->uploadService->remove($uploaded);
 
         return new Response('File: ' . $uploaded . '  successfully uploaded!');
     }

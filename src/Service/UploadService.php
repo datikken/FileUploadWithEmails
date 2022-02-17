@@ -36,7 +36,7 @@ class UploadService
 
         $newFilename = Urlizer::urlize(pathinfo($originalFilename, PATHINFO_FILENAME)).'-'.uniqid().'.'.$file->guessExtension();
 
-        $stream = fopen($file->getPathname(), 'r');
+        $stream = fopen($file->getRealPath(), 'r');
         $this->filesystem->writeStream(
           $newFilename,
           $stream
@@ -44,5 +44,25 @@ class UploadService
         fclose($stream);
 
         return $newFilename;
+    }
+
+    /**
+     * @param string $file
+     * @return void
+     * @throws \League\Flysystem\FilesystemException
+     */
+    public function remove(string $file): void
+    {
+        $this->filesystem->delete($file);
+    }
+
+    /**
+     * @param string $file
+     * @return void
+     * @throws \League\Flysystem\FilesystemException
+     */
+    public function read(string $file): void
+    {
+        $this->filesystem->read($file);
     }
 }
