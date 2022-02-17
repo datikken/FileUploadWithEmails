@@ -3,6 +3,8 @@
 namespace App\Service;
 
 use League\Flysystem\Filesystem;
+use Psr\Log\LoggerInterface;
+use Symfony\Component\Filesystem\Exception\FileNotFoundException;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Gedmo\Sluggable\Util\Urlizer;
 
@@ -14,11 +16,20 @@ class UploadService
     private $filesystem;
 
     /**
+     * @var LoggerInterface
+     */
+    private $logger;
+
+    /**
      * @param Filesystem $filesystem
      */
-    public function __construct(Filesystem $filesystem)
+    public function __construct(
+        Filesystem $filesystem,
+        LoggerInterface $logger
+    )
     {
         $this->filesystem = $filesystem;
+        $this->logger = $logger;
     }
 
     /**
@@ -53,7 +64,12 @@ class UploadService
      */
     public function remove(string $file): void
     {
-        $this->filesystem->delete($file);
+        try {
+            $this->filesystem->delete($file);
+        } catch (FileNotFoundException $e)
+        {
+            $this->logger->alert(sprintf('Uploaded file is missing', $file));
+        }
     }
 
     /**
