@@ -23,9 +23,10 @@ class UploadService
 
     /**
      * @param UploadedFile $file
-     * @return void
+     * @return string
+     * @throws \League\Flysystem\FilesystemException
      */
-    public function uploadLocal(UploadedFile $file, $folderName)
+    public function uploadLocal(UploadedFile $file): string
     {
         if ($file instanceof UploadedFile) {
             $originalFilename = $file->getClientOriginalName();
@@ -34,9 +35,14 @@ class UploadService
         }
 
         $newFilename = Urlizer::urlize(pathinfo($originalFilename, PATHINFO_FILENAME)).'-'.uniqid().'.'.$file->guessExtension();
-        $this->filesystem->write(
+
+        $stream = fopen($file->getPathname(), 'r');
+        $this->filesystem->writeStream(
           $newFilename,
-          file_get_contents($file->getPathname())
+          $stream
         );
+        fclose($stream);
+
+        return $newFilename;
     }
 }
