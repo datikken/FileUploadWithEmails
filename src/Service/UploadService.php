@@ -8,6 +8,7 @@ use Symfony\Component\Filesystem\Exception\FileNotFoundException;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Gedmo\Sluggable\Util\Urlizer;
 
+
 class UploadService
 {
     /**
@@ -37,7 +38,7 @@ class UploadService
      * @return string
      * @throws \League\Flysystem\FilesystemException
      */
-    public function uploadLocal(UploadedFile $file): string
+    public function uploadToLocal(UploadedFile $file): string
     {
         if ($file instanceof UploadedFile) {
             $originalFilename = $file->getClientOriginalName();
