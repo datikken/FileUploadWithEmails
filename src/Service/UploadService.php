@@ -38,7 +38,7 @@ class UploadService
      * @return string
      * @throws \League\Flysystem\FilesystemException
      */
-    public function uploadToLocal(UploadedFile $file): string
+    public function upload(UploadedFile $file): string
     {
         if ($file instanceof UploadedFile) {
             $originalFilename = $file->getClientOriginalName();
