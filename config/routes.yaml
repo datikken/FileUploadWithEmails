@@ -2,9 +2,13 @@ index:
     path: /
     controller: App\Controller\PageController::index
 
+careers:
+    path: /careers/apply
+    controller: App\Controller\CareersController::index
+
 uploads_upload:
     path: /upload/file
-    controller: App\Controller\UploadController::index
+    controller: App\Controller\UploadController::upload
 
 uploads_getByName:
     path: /upload/getFileByFileName/{fileName}

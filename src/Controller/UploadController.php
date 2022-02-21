@@ -6,7 +6,6 @@ use App\Service\UploadService;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\HttpFoundation\File\File;
 
 class UploadController extends AbstractController
 {
@@ -18,7 +17,12 @@ class UploadController extends AbstractController
         $this->uploadService = $uploadService;
     }
 
-    public function getFileByFileName($fileName)
+    /**
+     * @param $fileName
+     * @return Response
+     * @throws \League\Flysystem\FilesystemException
+     */
+    public function getFileByFileName($fileName): Response
     {
         $stream = $this->uploadService->read($fileName);
         $response = new Response(stream_get_contents($stream));
@@ -31,7 +35,7 @@ class UploadController extends AbstractController
      * @return Response
      * @throws \League\Flysystem\FilesystemException
      */
-    public function index(Request $request)
+    public function upload(Request $request)
     {
         $file = $request->files->get('attachments');
         $uploaded = $this->uploadService->upload($file);
