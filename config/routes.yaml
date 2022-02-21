@@ -1,3 +1,11 @@
 index:
+    path: /
+    controller: App\Controller\PageController::index
+
+uploads_upload:
     path: /upload/file
     controller: App\Controller\UploadController::index
+
+uploads_getByName:
+    path: /upload/getFileByFileName/{fileName}
+    controller: App\Controller\UploadController::getFileByFileName

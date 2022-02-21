@@ -75,11 +75,11 @@ class UploadService
 
     /**
      * @param string $file
-     * @return void
+     * @return string
      * @throws \League\Flysystem\FilesystemException
      */
-    public function read(string $file): void
+    public function read(string $file)
     {
-        $this->filesystem->read($file);
+        return $this->filesystem->readStream($file);
     }
 }
